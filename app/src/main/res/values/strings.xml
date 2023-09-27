@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TodoList</string>
+    <string name="simple_text">Text text text text text Text text text text text Text text text text text Text text text text text
+    Text text text text textText text text text textText text text text textText text text text textText text text text text</string>
+    <string name="title_insert">Введите новую запись...</string>
+    <string name="title_update">Измените запись...</string>
+    <string name="title_delete">Подтверждение удаления</string>
+    <string name="delete_text">Удалить запись?</string>
+    <string name="ok_btn">ОК</string>
+    <string name="cancel_btn">Отмена</string>
+</resources>
