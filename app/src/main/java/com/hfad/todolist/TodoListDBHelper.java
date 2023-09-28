@@ -83,17 +83,17 @@ public class TodoListDBHelper extends SQLiteOpenHelper {
                     "RECORD TEXT," +
                     "DONE NUMERIC," +
                     "DATE_CREATE TEXT);");
-            insertRecord("text 12", false, "2020-10-10");
-            insertRecord("text 2", true, "2020-10-10");
+            //     insertRecord("text 12", false, "2020-10-10");
+            // insertRecord("text 2", true, "2020-10-10");
         }
         if (oldVersion == 2) {
-            insertRecord("text 122", true, "2020-10-10");
+          //  insertRecord("text 122", true, "2020-10-10");
         }
     }
 
 
     public Cursor getData() {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from LIST_RECORD", null);
         return  cursor;
     }

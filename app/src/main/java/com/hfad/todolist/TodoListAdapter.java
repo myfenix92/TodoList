@@ -23,23 +23,20 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     interface Listener{
         void onDoneClick(TodoListModel data, int position);
         void onChangeClick(TodoListModel data, int position);
+        void onDeleteClick(TodoListModel data, int position);
     }
     private Context context;
     private List<TodoListModel> dataList;
     private Listener listener;
-
-
     public TodoListAdapter(Context context, List<TodoListModel> dataList, Listener listener) {
         this.context = context;
         this.dataList = dataList;
         this.listener = listener;
     }
-
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView v = (CardView)LayoutInflater.from(parent.getContext()).inflate(R.layout.list_todo, parent, false);
         return new ViewHolder(v);
     }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         TodoListModel todoListModel = dataList.get(position);
@@ -75,6 +72,16 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 }
             }
         });
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+//                if(listener != null) {
+//                    listener.onDeleteClick(todoListModel, position);
+//                }
+                return true;
+            }
+        });
+
     }
 
     public void updateData(List<TodoListModel> data) {
@@ -95,8 +102,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-
-        return dataList != null ? dataList.size() : 0;
+        return dataList.size();
+        //return dataList != null ? dataList.size() : 0;
     }
 
     public void setListener(Listener listener) {
