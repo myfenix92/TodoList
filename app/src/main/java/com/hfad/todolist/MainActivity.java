@@ -32,15 +32,12 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    List<TodoListModel> dataList = new ArrayList<>();
-    TodoListDBHelper db;
-    TodoListAdapter adapter;
-    Cursor cursor;
-
-    private String m_Text = "";
-    public static final String EXTRA_RECORD_ID = "recordId";
-
+    private RecyclerView recyclerView;
+    private List<TodoListModel> dataList = new ArrayList<>();
+    private TodoListDBHelper db;
+    private TodoListAdapter adapter;
+    private Cursor cursor;
+    private String m_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChangeClick(TodoListModel data, int position) {
+
                 View card = findViewById(R.id.card_view);
                 dialogRecord(card, data.getId_text(), data.getRecord_text(), data.getIsDone());
             }
@@ -86,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new TodoListAdapter(this, dataList, listener);
         db = new TodoListDBHelper(this);
-      //  adapter.setList(dataList);
         recyclerView.setAdapter(adapter);
         displayData();
+        adapter.updateData(displayData());
 
     }
 
@@ -97,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "no entry exists", Toast.LENGTH_SHORT).show();
         } else {
+            dataList.clear();
             while (cursor.moveToNext()) {
                 dataList.add(
                         new TodoListModel(
@@ -105,10 +104,8 @@ public class MainActivity extends AppCompatActivity {
                                 cursor.getInt(2) == 1,
                                 cursor.getString(3))
                 );
-
-             //   adapter.setList(dataList);
-             //   recyclerView.setAdapter(adapter);
             }
+
         }
         return dataList;
     }
@@ -131,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 m_Text = input.getText().toString();
                 Boolean checkInsertData = db.insertRecord(m_Text, false,
                         String.valueOf(Calendar.getInstance().getTime()));
+                adapter.updateData(displayData());
                 if (checkInsertData) {
                     Toast.makeText(MainActivity.this, "new entry inserted",
                             Toast.LENGTH_SHORT).show();
@@ -168,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 m_Text = input.getText().toString();
                 Boolean checkInsertData = db.updateData(id_record, m_Text, isDone);
+                adapter.updateData(displayData());
                 if (checkInsertData) {
                     Toast.makeText(MainActivity.this, "new entry inserted",
                             Toast.LENGTH_SHORT).show();
@@ -198,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Boolean checkInsertData = db.deleteData(id_record);
+                adapter.updateData(displayData());
                 if (checkInsertData) {
                     Toast.makeText(MainActivity.this, "new entry inserted",
                             Toast.LENGTH_SHORT).show();
@@ -240,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
 //      //  cursorAdapter(newCursor);
 //        cursor = newCursor;
 //    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

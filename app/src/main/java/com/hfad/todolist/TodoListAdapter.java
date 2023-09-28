@@ -90,20 +90,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
     }
 
-    public void setList(List<TodoListModel> list ) {
-        if (this.dataList != null) {
-            this.dataList.clear();
-            this.dataList.addAll(list);
-
-    } else {
-            this.dataList = list;
-    }
+    public void updateData(List<TodoListModel> data) {
+     //   dataList.clear();
+        dataList = data;
         notifyDataSetChanged();
     }
-//    public void updateData(List<TodoListModel> data) {
-//        this.dataList = new ArrayList<>(data);
-//        notifyDataSetChanged();
-//    }
 
 // вот тут вынести отдельно обработчики
 //        View.OnClickListener clickListener = new View.OnClickListener() {
@@ -117,7 +108,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+
+        return dataList != null ? dataList.size() : 0;
     }
 
     public void setListener(Listener listener) {
