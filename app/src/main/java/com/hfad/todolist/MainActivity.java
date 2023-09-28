@@ -2,6 +2,7 @@ package com.hfad.todolist;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recycler_todo);
         TodoListAdapter.Listener listener = new TodoListAdapter.Listener() {
             @Override
@@ -73,12 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 dialogRecord(card, data.getId_text(), data.getRecord_text(), data.getIsDone());
             }
 
-            @Override
-            public void onDeleteClick(TodoListModel data, int position) {
-                View card = findViewById(R.id.card_view);
-                dialogRecord(card, data.getId_text());
-
-            }
         };
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -168,41 +164,24 @@ public class MainActivity extends AppCompatActivity {
                 Boolean checkInsertData = db.updateData(id_record, m_Text, isDone);
                 adapter.updateData(displayData());
                 if (checkInsertData) {
-                    Toast.makeText(MainActivity.this, "new entry inserted",
+                    Toast.makeText(MainActivity.this, "update text",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "new entry not inserted",
+                    Toast.makeText(MainActivity.this, "no update text",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    public void dialogRecord(View view, int id_record) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.title_delete);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.delete_text);
-
-// Set up the buttons
-        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.delete_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Boolean checkInsertData = db.deleteData(id_record);
                 adapter.updateData(displayData());
                 if (checkInsertData) {
-                    Toast.makeText(MainActivity.this, "new entry inserted",
+                    Toast.makeText(MainActivity.this, "delete",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "new entry not inserted",
+                    Toast.makeText(MainActivity.this, "no delete",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -217,29 +196,6 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        displayData();
-//    }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        Cursor newCursor = db.getData();
-//        if(cursor.getCount() == 0) {
-//            Toast.makeText(this, "no entry exists", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else {
-//            while (cursor.moveToNext()) {
-//                record.add(cursor.getString(1));
-//                done.add(cursor.getInt(2) == 1);
-//            }
-//        }
-//    //    RecyclerView.Adapter cursorAdapter = recyclerView.getAdapter();
-//      //  cursorAdapter(newCursor);
-//        cursor = newCursor;
-//    }
     @Override
     public void onDestroy() {
         super.onDestroy();

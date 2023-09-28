@@ -6,9 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_color"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_todo"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

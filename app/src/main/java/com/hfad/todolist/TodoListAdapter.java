@@ -23,7 +23,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     interface Listener{
         void onDoneClick(TodoListModel data, int position);
         void onChangeClick(TodoListModel data, int position);
-        void onDeleteClick(TodoListModel data, int position);
     }
     private Context context;
     private List<TodoListModel> dataList;
@@ -76,18 +75,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 }
             }
         });
-
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                if(listener != null) {
-                    listener.onDeleteClick(todoListModel, position);
-                }
-                return true;
-            }
-        });
-
     }
 
     public void updateData(List<TodoListModel> data) {
