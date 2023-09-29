@@ -71,12 +71,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChangeClick(TodoListModel data, int position) {
-
+                TextView record_text = findViewById(R.id.text_record);
                 View card = findViewById(R.id.card_view);
-                dialogRecord(card, data.getId_text(), data.getRecord_text(), data.getIsDone());
+
+                record_text.setMaxLines(5);
+                card.setMinimumHeight(100);
+                String max_val = String.valueOf(record_text.getMaxLines());
+                Toast.makeText(MainActivity.this, max_val, Toast.LENGTH_SHORT).show();
+
             }
             @Override
             public void onDeleteClick(TodoListModel data, int position) {
+                View card = findViewById(R.id.card_view);
+                dialogRecord(card, data.getId_text(), data.getRecord_text(), data.getIsDone());
 //                View card = findViewById(R.id.card_view);
 //                dialogRecord(card, data.getId_text());
             }
@@ -123,8 +130,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setIcon(android.R.drawable.ic_menu_edit);
 // Set up the input
         final EditText input = new EditText(this);
+
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        input.setSingleLine(false);
+        input.setLines(3);
+        input.setMaxLines(6);
         builder.setView(input);
 // Set up the buttons
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
@@ -199,34 +210,34 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.show();
     }
-    public void dialogRecord(View view, int id_record) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-       // builder.setTitle(R.string.title_delete);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setMessage(R.string.delete_text);
-// Set up the buttons
-        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Boolean checkInsertData = db.deleteData(id_record);
-                adapter.updateData(displayData());
-                if (checkInsertData) {
-                    Toast.makeText(MainActivity.this, "new entry inserted",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "new entry not inserted",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
+//    public void dialogRecord(View view, int id_record) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//       // builder.setTitle(R.string.title_delete);
+//        builder.setIcon(android.R.drawable.ic_dialog_alert);
+//        builder.setMessage(R.string.delete_text);
+//// Set up the buttons
+//        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Boolean checkInsertData = db.deleteData(id_record);
+//                adapter.updateData(displayData());
+//                if (checkInsertData) {
+//                    Toast.makeText(MainActivity.this, "new entry inserted",
+//                            Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(MainActivity.this, "new entry not inserted",
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//        builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//        builder.show();
+//    }
 //    @Override
 //    public void onResume() {
 //        super.onResume();

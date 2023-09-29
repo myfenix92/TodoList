@@ -75,9 +75,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                if(listener != null) {
-//                    listener.onDeleteClick(todoListModel, position);
-//                }
+                if(listener != null) {
+                    listener.onDeleteClick(todoListModel, position);
+                }
                 return true;
             }
         });

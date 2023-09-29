@@ -30,11 +30,10 @@
                 android:id="@+id/text_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/simple_text"
                 android:layout_gravity="center_vertical"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
