@@ -3,6 +3,7 @@ package com.hfad.todolist;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,14 +15,18 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,21 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChangeClick(TodoListModel data, int position) {
-                TextView record_text = findViewById(R.id.text_record);
-                View card = findViewById(R.id.card_view);
-
-                record_text.setMaxLines(5);
-                card.setMinimumHeight(100);
-                String max_val = String.valueOf(record_text.getMaxLines());
-                Toast.makeText(MainActivity.this, max_val, Toast.LENGTH_SHORT).show();
-
-            }
-            @Override
-            public void onDeleteClick(TodoListModel data, int position) {
                 View card = findViewById(R.id.card_view);
                 dialogRecord(card, data.getId_text(), data.getRecord_text(), data.getIsDone());
-//                View card = findViewById(R.id.card_view);
-//                dialogRecord(card, data.getId_text());
+
             }
         };
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -126,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void dialogRecord(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.title_insert);
+        String title = getString(R.string.title_insert);
+        builder.setTitle(title);
         builder.setIcon(android.R.drawable.ic_menu_edit);
 // Set up the input
         final EditText input = new EditText(this);
@@ -136,7 +130,10 @@ public class MainActivity extends AppCompatActivity {
         input.setSingleLine(false);
         input.setLines(3);
         input.setMaxLines(6);
+        input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(250)});
+        builder.setMessage("messa");
         builder.setView(input);
+
 // Set up the buttons
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
@@ -170,7 +167,11 @@ public class MainActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         input.setText(text);
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        input.setSingleLine(false);
+        input.setLines(3);
+        input.setMaxLines(6);
+        builder.setView(input);
         builder.setView(input);
 // Set up the buttons
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {

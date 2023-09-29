@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     interface Listener{
         void onDoneClick(TodoListModel data, int position);
         void onChangeClick(TodoListModel data, int position);
-        void onDeleteClick(TodoListModel data, int position);
     }
     private Context context;
     private List<TodoListModel> dataList;
@@ -42,6 +42,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         TodoListModel todoListModel = dataList.get(position);
         CardView cardView = holder.cardView;
         holder.record_id.setText(todoListModel.getRecord_text());
+
         holder.done_id.setChecked(todoListModel.getIsDone());
         if (holder.done_id.isChecked()) {
             holder.record_id.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -70,15 +71,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 if (listener != null) {
                     listener.onChangeClick(todoListModel, position);
                 }
-            }
-        });
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(listener != null) {
-                    listener.onDeleteClick(todoListModel, position);
-                }
-                return true;
             }
         });
 
