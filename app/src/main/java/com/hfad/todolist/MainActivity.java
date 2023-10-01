@@ -14,11 +14,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -85,16 +88,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new TodoListAdapter(this, dataList, listener);
         db = new TodoListDBHelper(this);
-        //  adapter.setList(dataList);
         recyclerView.setAdapter(adapter);
         displayData();
-      //  adapter.updateData(displayData());
 
     }
 
     private List<TodoListModel> displayData() {
         cursor = db.getData();
-   //
         if (cursor.getCount() == 0) {
             dataList.clear();
             Toast.makeText(this, "no entry exists", Toast.LENGTH_SHORT).show();
@@ -108,33 +108,40 @@ public class MainActivity extends AppCompatActivity {
                                 cursor.getInt(2) == 1,
                                 cursor.getString(3))
                 );
-
-                //   adapter.setList(dataList);
-                //   recyclerView.setAdapter(adapter);
             }
-
         }
-
         return dataList;
     }
+
     public void dialogRecord(View view) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
+        View promtView = layoutInflater.inflate(layout.alert_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        String title = getString(R.string.title_insert);
-        builder.setTitle(title);
-        builder.setIcon(android.R.drawable.ic_menu_edit);
-// Set up the input
-        final EditText input = new EditText(this);
+        builder.setView(promtView);
+        final EditText input = promtView.findViewById(R.id.input);
+        final TextView textWatcher = promtView.findViewById(R.id.text_watcher);
+        final TextView textTitle = promtView.findViewById(R.id.title_alert);
+        textTitle.setText(R.string.title_insert);
+        textWatcher.setText(String.format("%s%s%s",
+                MainActivity.this.getResources().getString(R.string.count_text),
+                input.getText().length(),
+                MainActivity.this.getResources().getString(R.string.count_symbol)));
+            final TextWatcher mTextEditorWatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        input.setSingleLine(false);
-        input.setLines(3);
-        input.setMaxLines(6);
-        input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(250)});
-        builder.setMessage("messa");
-        builder.setView(input);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textWatcher.setText(String.format("%s%s%s",
+                        MainActivity.this.getResources().getString(R.string.count_text),
+                        s.length(),
+                        MainActivity.this.getResources().getString(R.string.count_symbol)));
+            }
 
-// Set up the buttons
+            public void afterTextChanged(Editable s) {
+            }
+        };
+           input.addTextChangedListener(mTextEditorWatcher);
+
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -157,23 +164,39 @@ public class MainActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        builder.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
     public void dialogRecord(View view, int id_record, String text, boolean isDone) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
+        View promtView = layoutInflater.inflate(layout.alert_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.title_update);
-        builder.setIcon(android.R.drawable.ic_menu_edit);
-// Set up the input
-        final EditText input = new EditText(this);
+        builder.setView(promtView);
+        final EditText input = promtView.findViewById(R.id.input);
+        final TextView textWatcher = promtView.findViewById(R.id.text_watcher);
+        final TextView textTitle = promtView.findViewById(R.id.title_alert);
+        textTitle.setText(R.string.title_update);
         input.setText(text);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        input.setSingleLine(false);
-        input.setLines(3);
-        input.setMaxLines(6);
-        builder.setView(input);
-        builder.setView(input);
-// Set up the buttons
+        textWatcher.setText(String.format("%s%s%s",
+                MainActivity.this.getResources().getString(R.string.count_text),
+                input.getText().length(),
+                MainActivity.this.getResources().getString(R.string.count_symbol)));
+        final TextWatcher mTextEditorWatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textWatcher.setText(String.format("%s%s%s",
+                        MainActivity.this.getResources().getString(R.string.count_text),
+                        s.length(),
+                        MainActivity.this.getResources().getString(R.string.count_symbol)));
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        input.addTextChangedListener(mTextEditorWatcher);
+
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -209,58 +232,9 @@ public class MainActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        builder.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
-//    public void dialogRecord(View view, int id_record) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//       // builder.setTitle(R.string.title_delete);
-//        builder.setIcon(android.R.drawable.ic_dialog_alert);
-//        builder.setMessage(R.string.delete_text);
-//// Set up the buttons
-//        builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Boolean checkInsertData = db.deleteData(id_record);
-//                adapter.updateData(displayData());
-//                if (checkInsertData) {
-//                    Toast.makeText(MainActivity.this, "new entry inserted",
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(MainActivity.this, "new entry not inserted",
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//        builder.show();
-//    }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        displayData();
-//    }
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        Cursor newCursor = db.getData();
-//        if(cursor.getCount() == 0) {
-//            Toast.makeText(this, "no entry exists", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else {
-//            while (cursor.moveToNext()) {
-//                record.add(cursor.getString(1));
-//                done.add(cursor.getInt(2) == 1);
-//            }
-//        }
-//    //    RecyclerView.Adapter cursorAdapter = recyclerView.getAdapter();
-//      //  cursorAdapter(newCursor);
-//        cursor = newCursor;
-//    }
 
     @Override
     public void onDestroy() {

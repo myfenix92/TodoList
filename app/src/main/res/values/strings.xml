@@ -7,4 +7,6 @@
     <string name="delete_text">Удалить запись?</string>
     <string name="ok_btn">ОК</string>
     <string name="cancel_btn">Отмена</string>
+    <string name="count_text">Количество символов: </string>
+    <string name="count_symbol">/250</string>
 </resources>
