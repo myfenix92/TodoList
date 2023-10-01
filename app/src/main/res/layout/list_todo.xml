@@ -23,15 +23,31 @@
                 android:id="@+id/check_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_gravity="center_vertical" />
 
 
-            <TextView
-                android:id="@+id/text_record"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textSize="18sp" />
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:id="@+id/text_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/date_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|bottom"
+                    android:textColor="#888484"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
         </LinearLayout>
 

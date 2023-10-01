@@ -42,8 +42,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         TodoListModel todoListModel = dataList.get(position);
         CardView cardView = holder.cardView;
         holder.record_id.setText(todoListModel.getRecord_text());
-
         holder.done_id.setChecked(todoListModel.getIsDone());
+        holder.record_date.setText(todoListModel.getDate_create_text());
         if (holder.done_id.isChecked()) {
             holder.record_id.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
@@ -105,6 +105,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView record_id;
+        TextView record_date;
         CheckBox done_id;
         CardView cardView;
 
@@ -112,6 +113,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
             super(itemView);
             cardView = itemView.findViewById(R.id.card_view);
             record_id = itemView.findViewById(R.id.text_record);
+            record_date = itemView.findViewById(R.id.date_record);
             done_id = itemView.findViewById(R.id.check_record);
         }
     }
