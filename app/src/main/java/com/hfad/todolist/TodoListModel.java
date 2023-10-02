@@ -1,7 +1,22 @@
 package com.hfad.todolist;
 
-public class TodoListModel {
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
+public class TodoListModel {
+    private final String[] monthList = new String[] {
+            "Jan", "Feb", "Mar",
+            "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep",
+            "Oct", "Nov", "Dec"};
+    private final String[] dayWeekListEn = new String[] {
+            "Mon", "Tue", "Wed",
+            "Thu", "Fri", "Sat", "Sun"};
+    private final String[] dayWeekListRu = new String[] {
+            "Пн", "Вт", "Ср",
+            "Чт", "Пт", "Сб", "Вс"};
     private int id_text;
     private String record_text;
     private boolean isDone;
@@ -40,7 +55,23 @@ public class TodoListModel {
     }
 
     public String getDate_create_text() {
-        return date_create_text;
+        String dateFormat = date_create_text;
+        String month = dateFormat.substring(4, 7);
+        for (int i = 0; i < monthList.length; i++) {
+            if (Objects.equals(monthList[i], month)) {
+                month = (i < 10 ? "0" + i : i).toString();
+            }
+        }
+        String dayWeek = dateFormat.substring(0, 3);
+        for (int i = 0; i < dayWeekListEn.length; i++) {
+            if (Objects.equals(dayWeekListEn[i], dayWeek)) {
+                dayWeek = dayWeekListRu[i];
+            }
+        }
+        String day = dateFormat.substring(7, 10);
+        String time = dateFormat.substring(11, 19);
+        String year = dateFormat.substring(30);
+        return String.format("%s %s-%s-%s, %s", dayWeek, day, month, year, time);
     }
 
     public void setDate_create_text(String date_create_text) {

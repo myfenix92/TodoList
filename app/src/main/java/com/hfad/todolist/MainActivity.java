@@ -41,11 +41,11 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-     RecyclerView recyclerView;
-     List<TodoListModel> dataList = new ArrayList<>();
-     TodoListDBHelper db;
-     TodoListAdapter adapter;
-     Cursor cursor;
+    private RecyclerView recyclerView;
+    private List<TodoListModel> dataList = new ArrayList<>();
+    private TodoListDBHelper db;
+    private TodoListAdapter adapter;
+    private Cursor cursor;
     private String m_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
