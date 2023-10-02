@@ -41,11 +41,11 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private List<TodoListModel> dataList = new ArrayList<>();
-    private TodoListDBHelper db;
-    private TodoListAdapter adapter;
-    private Cursor cursor;
+    RecyclerView recyclerView;
+    List<TodoListModel> dataList = new ArrayList<>();
+    TodoListDBHelper db;
+    TodoListAdapter adapter;
+    Cursor cursor;
     private String m_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 ContentValues recordValues = new ContentValues();
                 recordValues.put("DONE", data.getIsDone());
                 try {
-                    Boolean checkUpdate = db.updateData(data.getId_text(),
+                    db.updateData(data.getId_text(),
                             data.getRecord_text(), data.getIsDone());
-                    if (checkUpdate) {
-                        Toast.makeText(MainActivity.this, "updated",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MainActivity.this, "not updated",
-                                Toast.LENGTH_SHORT).show();
-                    }
                 } catch (SQLiteException e) {
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "Database unavailable", Toast.LENGTH_SHORT);
@@ -122,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView textWatcher = promtView.findViewById(R.id.text_watcher);
         final TextView textTitle = promtView.findViewById(R.id.title_alert);
         textTitle.setText(R.string.title_insert);
+
         textWatcher.setText(String.format("%s %s%s",
                 MainActivity.this.getResources().getString(R.string.count_text),
                 input.getText().length(),
@@ -145,17 +139,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-                Boolean checkInsertData = db.insertRecord(m_Text, false,
-                        String.valueOf(Calendar.getInstance().getTime()));
-                     adapter.updateData(displayData());
-                if (checkInsertData) {
-                    Toast.makeText(MainActivity.this, "new entry inserted",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "new entry not inserted",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
         builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
@@ -166,6 +149,25 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (input.length() > 0) {
+                    m_Text = input.getText().toString();
+                    db.insertRecord(m_Text, false,
+                            String.valueOf(Calendar.getInstance().getTime()));
+                    adapter.updateData(displayData());
+                    alertDialog.dismiss();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.empty_error,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
     public void dialogRecord(View view, int id_record, String text, boolean isDone) {
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
@@ -177,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView textTitle = promtView.findViewById(R.id.title_alert);
         textTitle.setText(R.string.title_update);
         input.setText(text);
+        input.setSelection(input.getText().length());
         textWatcher.setText(String.format("%s %s%s",
                 MainActivity.this.getResources().getString(R.string.count_text),
                 input.getText().length(),
@@ -200,16 +203,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-                Boolean checkInsertData = db.updateData(id_record, m_Text, isDone);
-                adapter.updateData(displayData());
-                if (checkInsertData) {
-                    Toast.makeText(MainActivity.this, "new entry inserted",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "new entry not inserted",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
         builder.setNeutralButton(R.string.delete_text, new DialogInterface.OnClickListener() {
@@ -234,6 +227,23 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (input.length() > 0) {
+                    m_Text = input.getText().toString();
+                    db.updateData(id_record, m_Text, isDone);
+                    adapter.updateData(displayData());
+                    alertDialog.dismiss();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.empty_error,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

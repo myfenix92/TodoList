@@ -26,6 +26,8 @@
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="start"
         android:lines="3"
         android:maxLines="6"
         android:maxLength="250">

@@ -70,7 +70,7 @@ public class TodoListModel {
         }
         String day = dateFormat.substring(7, 10);
         String time = dateFormat.substring(11, 19);
-        String year = dateFormat.substring(30);
+        String year = dateFormat.substring(dateFormat.length() - 4);
         return String.format("%s %s-%s-%s, %s", dayWeek, day, month, year, time);
     }
 
