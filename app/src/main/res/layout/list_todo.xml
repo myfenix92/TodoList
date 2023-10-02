@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
+                android:buttonTint="@color/color_main"
                 android:layout_gravity="center_vertical" />
 
 
@@ -38,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="5dp"
+                    android:textColor="@color/text"
                     android:textSize="18sp" />
 
                 <TextView
@@ -45,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end|bottom"
-                    android:textColor="#888484"
+                    android:textColor="@color/date"
                     android:textSize="11sp" />
             </LinearLayout>
 

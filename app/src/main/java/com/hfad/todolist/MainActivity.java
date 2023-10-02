@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView textWatcher = promtView.findViewById(R.id.text_watcher);
         final TextView textTitle = promtView.findViewById(R.id.title_alert);
         textTitle.setText(R.string.title_insert);
-        textWatcher.setText(String.format("%s%s%s",
+        textWatcher.setText(String.format("%s %s%s",
                 MainActivity.this.getResources().getString(R.string.count_text),
                 input.getText().length(),
                 MainActivity.this.getResources().getString(R.string.count_symbol)));
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textWatcher.setText(String.format("%s%s%s",
+                textWatcher.setText(String.format("%s %s%s",
                         MainActivity.this.getResources().getString(R.string.count_text),
                         s.length(),
                         MainActivity.this.getResources().getString(R.string.count_symbol)));
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView textTitle = promtView.findViewById(R.id.title_alert);
         textTitle.setText(R.string.title_update);
         input.setText(text);
-        textWatcher.setText(String.format("%s%s%s",
+        textWatcher.setText(String.format("%s %s%s",
                 MainActivity.this.getResources().getString(R.string.count_text),
                 input.getText().length(),
                 MainActivity.this.getResources().getString(R.string.count_symbol)));
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textWatcher.setText(String.format("%s%s%s",
+                textWatcher.setText(String.format("%s %s%s",
                         MainActivity.this.getResources().getString(R.string.count_text),
                         s.length(),
                         MainActivity.this.getResources().getString(R.string.count_symbol)));
