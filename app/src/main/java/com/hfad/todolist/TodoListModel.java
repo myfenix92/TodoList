@@ -59,7 +59,7 @@ public class TodoListModel {
         String month = dateFormat.substring(4, 7);
         for (int i = 0; i < monthList.length; i++) {
             if (Objects.equals(monthList[i], month)) {
-                month = (i < 10 ? "0" + i : i).toString();
+                month = ((i + 1) < 10 ? "0" + (i + 1) : (i + 1)).toString();
             }
         }
         String dayWeek = dateFormat.substring(0, 3);
