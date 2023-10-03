@@ -2,6 +2,7 @@ package com.hfad.todolist;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,8 +27,11 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -139,8 +144,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         input.addTextChangedListener(mTextEditorWatcher);
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -149,12 +152,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainActivity.this.getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                input.clearFocus();
                 dialog.cancel();
             }
         });
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertDialog.show();
 
 
@@ -177,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     public void dialogRecord(View view, int id_record, String text, boolean isDone) {
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
         View promtView = layoutInflater.inflate(layout.alert_dialog, null);
@@ -207,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         input.addTextChangedListener(mTextEditorWatcher);
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
         builder.setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -224,12 +227,13 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainActivity.this.getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 input.clearFocus();
                 dialog.cancel();
             }
         });
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertDialog.show();
 
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
@@ -250,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+        @Override
     public void onDestroy() {
         super.onDestroy();
         cursor.close();
